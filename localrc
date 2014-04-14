@@ -1,0 +1,35 @@
+SKIP_PATH_SANITY=true
+DEST=$HOME/src/openstack
+SERVICE_DIR=$DEST/status
+DATA_DIR=$DEST/data
+LOGFILE=$DATA_DIR/logs/stack.log
+SCREEN_LOGDIR=$DATA_DIR/logs
+
+disable_service rabbit
+enable_service qpid
+
+MYSQL_PASSWORD=stack
+SERVICE_TOKEN=stack
+SERVICE_PASSWORD=stack
+ADMIN_PASSWORD=stack
+
+IMAGE_URLS="http://berrange.fedorapeople.org/images/2012-02-29/f16-x86_64-openstack-sda.qcow2"
+
+enable_service trove
+
+IMAGE_URLS+=",http://cloud.fedoraproject.org/fedora-20.x86_64.qcow2"
+
+# Enable the ceilometer metering services
+#enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector
+
+# Enable the ceilometer alarming services
+#enable_service ceilometer-alarm-evaluator,ceilometer-alarm-notifier
+
+# Enable the ceilometer api services
+#enable_service ceilometer-api
+
+#ENABLED_SERVICES+=,swift
+enable_service s-proxy s-object s-container s-account
+SWIFT_HASH=66a3d6b56c1f479c8b4e70ab5c2000f5
+SWIFT_REPLICAS=1
+SWIFT_DATA_DIR=$DEST/data
